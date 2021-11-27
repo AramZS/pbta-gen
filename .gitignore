@@ -102,3 +102,8 @@ dist
 
 # TernJS port file
 .tern-port
+
+.env
+gh-pages
+gh-pages.pub
+.DS_Store
