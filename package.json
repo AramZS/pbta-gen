@@ -1,0 +1,39 @@
+{
+  "name": "pbta-gen",
+  "version": "0.0.1",
+  "description": "A generator for Powered by the Apocalypse games",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AramZS/pbta-gen.git"
+  },
+  "bin": {
+    "eleventy": "./cmd.js"
+  },
+  "engines": {
+    "node": ">=12"
+  },
+  "keywords": [
+    "pbta",
+    "powered",
+    "by",
+    "the",
+    "apocalypse",
+    "rpgs",
+    "games",
+    "ttrpg"
+  ],
+  "author": "Aram Zucker-Scharff",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AramZS/pbta-gen/issues"
+  },
+  "homepage": "https://github.com/AramZS/pbta-gen#readme",
+  "dependencies": {
+    "debug": "^4.3.3",
+    "please-upgrade-node": "^3.2.0"
+  }
+}
