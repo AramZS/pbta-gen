@@ -12,3 +12,22 @@ require("please-upgrade-node")(pkg, {
 });
 const debug = require("debug")("PBTA-Gen:cmd");
 
+const { readdirSync } = require('fs')
+
+const getDirectories = source => {
+	const hiddenFiles = new RegExp(/^\.|node_modules/g)
+  return readdirSync(source, { withFileTypes: true })
+    .filter(dirent => dirent.isDirectory())
+	.filter(dirent => !hiddenFiles.test(dirent.name))
+    .map(dirent => dirent.name)
+}
+
+const getFiles = source => {
+	const hiddenFiles = new RegExp(/^\.|node_modules/g)
+  return readdirSync(source, { withFileTypes: true })
+    //.filter(dirent => dirent.isDirectory())
+	.filter(dirent => !hiddenFiles.test(dirent.name))
+    .map(dirent => dirent.name)
+}
+
+console.log('PBTA Generator Go', getDirectories('./'))

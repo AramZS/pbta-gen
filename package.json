@@ -2,7 +2,7 @@
   "name": "pbta-gen",
   "version": "0.0.1",
   "description": "A generator for Powered by the Apocalypse games",
-  "main": "index.js",
+  "main": "cmd.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,18 +10,15 @@
     "type": "git",
     "url": "git+https://github.com/AramZS/pbta-gen.git"
   },
-  "bin": {
-    "eleventy": "./cmd.js"
-  },
   "engines": {
     "node": ">=12"
   },
+  "bin": {
+    "pbtaGen": "./cmd.js"
+  },
   "keywords": [
     "pbta",
-    "powered",
-    "by",
-    "the",
-    "apocalypse",
+    "powered by the apocalypse",
     "rpgs",
     "games",
     "ttrpg"
