@@ -14,7 +14,7 @@
     "node": ">=12"
   },
   "bin": {
-    "pbtaGen": "./cmd.js"
+    "pbtaGen": "./cmd"
   },
   "keywords": [
     "pbta",
