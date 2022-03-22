@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 const pkg = require("./package.json");
+const yargs = require('yargs/yargs')
+const { hideBin } = require('yargs/helpers')
 const fileSet = require("./src/get-files")
 // https://developer.okta.com/blog/2019/06/18/command-line-app-with-nodejs
 require("please-upgrade-node")(pkg, {
@@ -61,5 +63,13 @@ const argv = process.argv.filter((arg) => { return !!arg.match(/--/) });
 debug("command: pbta-gen %o", argv);
 
 getTopFiles('./').then((results) => {
-	console.log('PBTA Generator Go', argv, results)
+	const relativeResults = results.map((file) => {
+		return file.replace(__dirname, '')
+	})
+	// npx ./ --target=../testsite
+	console.log('PBTA Generator Go', yargs(argv).argv, relativeResults)
+	const siteTemplate = relativeResults.filter((file)=>{
+		return /site-template/.test(file)
+	})
+	console.log('Site template', siteTemplate);
 })

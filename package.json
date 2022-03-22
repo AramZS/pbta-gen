@@ -31,6 +31,7 @@
   "homepage": "https://github.com/AramZS/pbta-gen#readme",
   "dependencies": {
     "debug": "^4.3.3",
-    "please-upgrade-node": "^3.2.0"
+    "please-upgrade-node": "^3.2.0",
+    "yargs": "^17.4.0"
   }
 }
