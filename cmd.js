@@ -3,6 +3,7 @@ const pkg = require("./package.json");
 const yargs = require('yargs/yargs')
 const { hideBin } = require('yargs/helpers')
 const fileSet = require("./src/get-files")
+const { createFolders, createBaseFolder } = require("./src/create-structure")
 // https://developer.okta.com/blog/2019/06/18/command-line-app-with-nodejs
 require("please-upgrade-node")(pkg, {
   message: function (requiredVersion) {
@@ -71,5 +72,25 @@ getTopFiles('./').then((results) => {
 	const siteTemplate = relativeResults.filter((file)=>{
 		return /site-template/.test(file)
 	})
+	const projectFiles = siteTemplate.filter((file)=>{
+		return /site-template\/project-files/.test(file)
+	})
+	const srcFiles = siteTemplate.filter((file)=>{
+		return /site-template\/site/.test(file)
+	})
 	console.log('Site template', siteTemplate);
+	if (yargs(argv).argv.hasOwnProperty('create')){
+		const { create } = yargs(argv).argv;
+		let folderPath = '';
+		if (typeof create == 'string'){
+			folderPath = create;
+		} else {
+			folderPath = './'
+		}
+		createBaseFolder(folderPath)
+		const creationQueue = srcFiles.map((aPath) => {
+			const createPath = aPath.replace(/site-template\/site/, 'src')
+			createFolders(folderPath, createPath)
+		})
+	}
 })
