@@ -4,6 +4,7 @@ const yargs = require('yargs/yargs')
 const { hideBin } = require('yargs/helpers')
 const fileSet = require("./src/get-files")
 const { createFolders, createBaseFolder } = require("./src/create-structure")
+const { createFile } = require("./src/create-files")
 // https://developer.okta.com/blog/2019/06/18/command-line-app-with-nodejs
 require("please-upgrade-node")(pkg, {
   message: function (requiredVersion) {
@@ -63,12 +64,19 @@ const argv = process.argv.filter((arg) => { return !!arg.match(/--/) });
 
 debug("command: pbta-gen %o", argv);
 
+const buildFile = function(aPath, replaceRegex, replacementString, folderPath, overwrite ){
+	const createPath = aPath.replace(replaceRegex, replacementString)
+	createFolders(folderPath, createPath)
+	createFile(folderPath, createPath, aPath, overwrite)
+	return createPath
+}
+
 getTopFiles('./').then((results) => {
 	const relativeResults = results.map((file) => {
 		return file.replace(__dirname, '')
 	})
 	// npx ./ --target=../testsite
-	console.log('PBTA Generator Go', yargs(argv).argv, relativeResults)
+	console.log('PBTA Generator Go', yargs(argv).argv)//, relativeResults)
 	const siteTemplate = relativeResults.filter((file)=>{
 		return /site-template/.test(file)
 	})
@@ -78,9 +86,20 @@ getTopFiles('./').then((results) => {
 	const srcFiles = siteTemplate.filter((file)=>{
 		return /site-template\/site/.test(file)
 	})
-	console.log('Site template', siteTemplate);
+	const githubFiles = siteTemplate.filter((file)=>{
+		return /site-template\/github-files/.test(file)
+	})
+	const customPluginFiles = siteTemplate.filter((file)=>{
+		return /site-template\/_custom-plugins/.test(file)
+	})
+	let overwrite = false
+	if (yargs(argv).argv.hasOwnProperty('overwrite')){
+		overwrite = yargs(argv).argv.overwrite == "true" ? true : false
+	}
+	// console.log('Site template', siteTemplate);
 	if (yargs(argv).argv.hasOwnProperty('create')){
 		const { create } = yargs(argv).argv;
+
 		let folderPath = '';
 		if (typeof create == 'string'){
 			folderPath = create;
@@ -89,8 +108,28 @@ getTopFiles('./').then((results) => {
 		}
 		createBaseFolder(folderPath)
 		const creationQueue = srcFiles.map((aPath) => {
-			const createPath = aPath.replace(/site-template\/site/, 'src')
-			createFolders(folderPath, createPath)
+			return buildFile(aPath, /site-template\/site/, 'src', folderPath, overwrite)
+			// const createPath = aPath.replace(/site-template\/site/, 'src')
+			// createFolders(folderPath, createPath)
+			// return createPath
+		})
+		const creationQueueMainBuildFiles = projectFiles.map((aPath) => {
+			return buildFile(aPath, /site-template\/project-files/, '', folderPath, overwrite)
+			//const createPath = aPath.replace(/site-template\/project-files/, '')
+			//createFolders(folderPath, createPath)
+			//return createPath
+		})
+		const creationGithubFiles = githubFiles.map((aPath) => {
+			return buildFile(aPath, /site-template\/github-files/, '.github', folderPath, overwrite)
+			// const createPath = aPath.replace(/site-template\/github-files/, '.github')
+			// createFolders(folderPath, createPath)
+			// return createPath
+		})
+		const creationCustomPlugins = customPluginFiles.map((aPath) => {
+			return buildFile(aPath, /site-template\/_custom-plugins/, '_custom-plugins', folderPath, overwrite)
+			// const createPath = aPath.replace(/site-template\/github-files/, '_custom-plugins')
+			// createFolders(folderPath, createPath)
+			// return createPath
 		})
 	}
 })
