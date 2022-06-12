@@ -34,5 +34,8 @@
     "debug": "^4.3.3",
     "please-upgrade-node": "^3.2.0",
     "yargs": "^17.4.0"
+  },
+  "devDependencies": {
+    "jest": "^28.1.1"
   }
 }

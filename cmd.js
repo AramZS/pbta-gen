@@ -71,65 +71,109 @@ const buildFile = function(aPath, replaceRegex, replacementString, folderPath, o
 	return createPath
 }
 
-getTopFiles('./').then((results) => {
-	const relativeResults = results.map((file) => {
-		return file.replace(__dirname, '')
-	})
-	// npx ./ --target=../testsite
-	console.log('PBTA Generator Go', yargs(argv).argv)//, relativeResults)
-	const siteTemplate = relativeResults.filter((file)=>{
-		return /site-template/.test(file)
-	})
-	const projectFiles = siteTemplate.filter((file)=>{
-		return /site-template\/project-files/.test(file)
-	})
-	const srcFiles = siteTemplate.filter((file)=>{
-		return /site-template\/site/.test(file)
-	})
-	const githubFiles = siteTemplate.filter((file)=>{
-		return /site-template\/github-files/.test(file)
-	})
-	const customPluginFiles = siteTemplate.filter((file)=>{
-		return /site-template\/_custom-plugins/.test(file)
-	})
-	let overwrite = false
-	if (yargs(argv).argv.hasOwnProperty('overwrite')){
-		overwrite = yargs(argv).argv.overwrite == "true" ? true : false
-	}
-	// console.log('Site template', siteTemplate);
-	if (yargs(argv).argv.hasOwnProperty('create')){
-		const { create } = yargs(argv).argv;
-
-		let folderPath = '';
-		if (typeof create == 'string'){
-			folderPath = create;
-		} else {
-			folderPath = './'
+const createSite = () => {
+	getTopFiles('./').then((results) => {
+		const relativeResults = results.map((file) => {
+			return file.replace(__dirname, '')
+		})
+		// npx ./ --target=../testsite
+		console.log('PBTA Generator Go', yargs(argv).argv)//, relativeResults)
+		const siteTemplate = relativeResults.filter((file)=>{
+			return /site-template/.test(file)
+		})
+		const projectFiles = siteTemplate.filter((file)=>{
+			return /site-template\/project-files/.test(file)
+		})
+		const srcFiles = siteTemplate.filter((file)=>{
+			return /site-template\/site/.test(file)
+		})
+		const githubFiles = siteTemplate.filter((file)=>{
+			return /site-template\/github-files/.test(file)
+		})
+		const customPluginFiles = siteTemplate.filter((file)=>{
+			return /site-template\/_custom-plugins/.test(file)
+		})
+		let overwrite = false
+		if (yargs(argv).argv.hasOwnProperty('overwrite')){
+			overwrite = yargs(argv).argv.overwrite == "true" ? true : false
 		}
-		createBaseFolder(folderPath)
-		const creationQueue = srcFiles.map((aPath) => {
-			return buildFile(aPath, /site-template\/site/, 'src', folderPath, overwrite)
-			// const createPath = aPath.replace(/site-template\/site/, 'src')
-			// createFolders(folderPath, createPath)
-			// return createPath
-		})
-		const creationQueueMainBuildFiles = projectFiles.map((aPath) => {
-			return buildFile(aPath, /site-template\/project-files/, '', folderPath, overwrite)
-			//const createPath = aPath.replace(/site-template\/project-files/, '')
-			//createFolders(folderPath, createPath)
-			//return createPath
-		})
-		const creationGithubFiles = githubFiles.map((aPath) => {
-			return buildFile(aPath, /site-template\/github-files/, '.github', folderPath, overwrite)
-			// const createPath = aPath.replace(/site-template\/github-files/, '.github')
-			// createFolders(folderPath, createPath)
-			// return createPath
-		})
-		const creationCustomPlugins = customPluginFiles.map((aPath) => {
-			return buildFile(aPath, /site-template\/_custom-plugins/, '_custom-plugins', folderPath, overwrite)
-			// const createPath = aPath.replace(/site-template\/github-files/, '_custom-plugins')
-			// createFolders(folderPath, createPath)
-			// return createPath
-		})
+		// console.log('Site template', siteTemplate);
+		if (yargs(argv).argv.hasOwnProperty('create')){
+			const { create } = yargs(argv).argv;
+
+			let folderPath = '';
+			if (typeof create == 'string'){
+				folderPath = create;
+			} else {
+				folderPath = './'
+			}
+			createBaseFolder(folderPath)
+			const creationQueue = srcFiles.map((aPath) => {
+				return buildFile(aPath, /site-template\/site/, 'src', folderPath, overwrite)
+				// const createPath = aPath.replace(/site-template\/site/, 'src')
+				// createFolders(folderPath, createPath)
+				// return createPath
+			})
+			const creationQueueMainBuildFiles = projectFiles.map((aPath) => {
+				return buildFile(aPath, /site-template\/project-files/, '', folderPath, overwrite)
+				//const createPath = aPath.replace(/site-template\/project-files/, '')
+				//createFolders(folderPath, createPath)
+				//return createPath
+			})
+			const creationGithubFiles = githubFiles.map((aPath) => {
+				return buildFile(aPath, /site-template\/github-files/, '.github', folderPath, overwrite)
+				// const createPath = aPath.replace(/site-template\/github-files/, '.github')
+				// createFolders(folderPath, createPath)
+				// return createPath
+			})
+			const creationCustomPlugins = customPluginFiles.map((aPath) => {
+				return buildFile(aPath, /site-template\/_custom-plugins/, '_custom-plugins', folderPath, overwrite)
+				// const createPath = aPath.replace(/site-template\/github-files/, '_custom-plugins')
+				// createFolders(folderPath, createPath)
+				// return createPath
+			})
+		}
+	})
+}
+
+if (yargs(argv).argv.hasOwnProperty('create')){
+	createSite()
+}
+
+if (yargs(argv).argv.hasOwnProperty('newFile')){
+	const { newFile } = yargs(argv).argv
+	let title = false
+	if (yargs(argv).argv.hasOwnProperty('title')){
+		title = yargs(argv).argv.title
 	}
-})
+	if ( newFile ){
+		let templatePath = '';
+		switch (newFile) {
+			case 'agenda':
+
+				break;
+			case 'genre':
+
+				break;
+			case 'playbook':
+
+				break;
+			case 'threat':
+
+				break;
+			case 'player-move':
+
+				break;
+			case 'gm-move':
+
+				break;
+			case 'threat-move':
+
+				break;
+			default:
+				break;
+		}
+	} else {
+		throw new Error('The newFile property needs a value')
+	}
+}
