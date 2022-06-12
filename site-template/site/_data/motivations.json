@@ -1,0 +1,20 @@
+{
+    "threat":{
+        "Beast": "(to run wild, destroying and killing)",
+        "Breeder": "(to give birth to, bring forth, or create evil)",
+        "Collector": "(to steal specific sorts of things)",
+        "Destroyer": "(to bring about the end of the world)",
+        "Devourer": "(to consume people)",
+        "Executioner": "(to punish the guilty)",
+        "Parasite": "(to infest, control and devour)",
+        "Queen": "(to possess and control)",
+        "Sorcerer": "(to usurp unnatural power)",
+        "Tempter": "(to tempt people into evil deeds)",
+        "Torturer": "(to hurt and terrify)",
+        "Trickster": "(to create chaos)",
+    },
+    "minor-threat": {},
+    "location": {},
+    "phenomenon": {},
+    "npc": {}
+}

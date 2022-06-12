@@ -94,8 +94,12 @@ const createSite = () => {
 			return /site-template\/_custom-plugins/.test(file)
 		})
 		let overwrite = false
+		let starters = false
 		if (yargs(argv).argv.hasOwnProperty('overwrite')){
 			overwrite = yargs(argv).argv.overwrite == "true" ? true : false
+		}
+		if (yargs(argv).argv.hasOwnProperty('starters')){
+			starters = yargs(argv).argv.overwrite == "true" ? true : false
 		}
 		// console.log('Site template', siteTemplate);
 		if (yargs(argv).argv.hasOwnProperty('create')){
@@ -109,25 +113,25 @@ const createSite = () => {
 			}
 			createBaseFolder(folderPath)
 			const creationQueue = srcFiles.map((aPath) => {
-				return buildFile(aPath, /site-template\/site/, 'src', folderPath, overwrite)
+				return buildFile(aPath, /site-template\/site/, 'src', folderPath, overwrite, starters)
 				// const createPath = aPath.replace(/site-template\/site/, 'src')
 				// createFolders(folderPath, createPath)
 				// return createPath
 			})
 			const creationQueueMainBuildFiles = projectFiles.map((aPath) => {
-				return buildFile(aPath, /site-template\/project-files/, '', folderPath, overwrite)
+				return buildFile(aPath, /site-template\/project-files/, '', folderPath, overwrite, starters)
 				//const createPath = aPath.replace(/site-template\/project-files/, '')
 				//createFolders(folderPath, createPath)
 				//return createPath
 			})
 			const creationGithubFiles = githubFiles.map((aPath) => {
-				return buildFile(aPath, /site-template\/github-files/, '.github', folderPath, overwrite)
+				return buildFile(aPath, /site-template\/github-files/, '.github', folderPath, overwrite, starters)
 				// const createPath = aPath.replace(/site-template\/github-files/, '.github')
 				// createFolders(folderPath, createPath)
 				// return createPath
 			})
 			const creationCustomPlugins = customPluginFiles.map((aPath) => {
-				return buildFile(aPath, /site-template\/_custom-plugins/, '_custom-plugins', folderPath, overwrite)
+				return buildFile(aPath, /site-template\/_custom-plugins/, '_custom-plugins', folderPath, overwrite, starters)
 				// const createPath = aPath.replace(/site-template\/github-files/, '_custom-plugins')
 				// createFolders(folderPath, createPath)
 				// return createPath
